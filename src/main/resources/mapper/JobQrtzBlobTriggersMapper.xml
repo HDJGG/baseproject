@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hdj.baseproject.mapper.JobQrtzBlobTriggersMapper">
+
+    <resultMap type="com.hdj.baseproject.entity.JobQrtzBlobTriggers" id="JobQrtzBlobTriggersMap">
+        <result property="schedName" column="SCHED_NAME" jdbcType="VARCHAR"/>
+        <result property="triggerName" column="TRIGGER_NAME" jdbcType="VARCHAR"/>
+        <result property="triggerGroup" column="TRIGGER_GROUP" jdbcType="VARCHAR"/>
+        <result property="blobData" column="BLOB_DATA" jdbcType="OTHER"/>
+    </resultMap>
+
+    <!-- 通用的字段 -->
+    <sql id="Base_Column_List">
+        SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP, BLOB_DATA    </sql>
+
+    <!--根据主键查询单个-->
+    <select id="queryByPrimaryKey" resultMap="JobQrtzBlobTriggersMap"
+            parameterType="com.hdj.baseproject.entity.JobQrtzBlobTriggers">
+        select
+          SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP, BLOB_DATA        from JOB_QRTZ_BLOB_TRIGGERS
+        where 1=1  
+                       and  SCHED_NAME = #{schedName,jdbcType=VARCHAR}
+                       and  TRIGGER_NAME = #{triggerName,jdbcType=VARCHAR}
+                       and  TRIGGER_GROUP = #{triggerGroup,jdbcType=VARCHAR}
+                
+    </select>
+
+    <!--通过主键修改数据-->
+    <update id="updateByPrimaryKey" parameterType="com.hdj.baseproject.entity.JobQrtzBlobTriggers">
+        update JOB_QRTZ_BLOB_TRIGGERS
+        <trim suffixOverrides=",">
+            <set>
+                <if test="blobData != null">
+                    BLOB_DATA = #{blobData,jdbcType=OTHER},
+                </if>
+            </set>
+        </trim>
+        where 1=1
+        and SCHED_NAME = #{schedName,jdbcType=VARCHAR}
+        and TRIGGER_NAME = #{triggerName,jdbcType=VARCHAR}
+        and TRIGGER_GROUP = #{triggerGroup,jdbcType=VARCHAR}
+
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteByPrimaryKey" parameterType="com.hdj.baseproject.entity.JobQrtzBlobTriggers">
+        delete from JOB_QRTZ_BLOB_TRIGGERS 
+        where 1=1 
+                       and  SCHED_NAME = #{schedName,jdbcType=VARCHAR}
+                       and  TRIGGER_NAME = #{triggerName,jdbcType=VARCHAR}
+                       and  TRIGGER_GROUP = #{triggerGroup,jdbcType=VARCHAR}
+                
+    </delete>
+
+
+    <!-- 根据条件进行查询去重 -->
+    <select id="selectSelectiveOfDistince" resultMap="JobQrtzBlobTriggersMap"
+            parameterType="com.hdj.baseproject.entity.JobQrtzBlobTriggers">
+        SELECT
+        DISTINCT
+        <include refid="Base_Column_List"/>
+        FROM JOB_QRTZ_BLOB_TRIGGERS
+        <where>
+            <if test="schedName != null and schedName != ''">
+                and SCHED_NAME = #{schedName,jdbcType=VARCHAR}
+            </if>
+            <if test="triggerName != null and triggerName != ''">
+                and TRIGGER_NAME = #{triggerName,jdbcType=VARCHAR}
+            </if>
+            <if test="triggerGroup != null and triggerGroup != ''">
+                and TRIGGER_GROUP = #{triggerGroup,jdbcType=VARCHAR}
+            </if>
+            <if test="blobData != null">
+                and BLOB_DATA = #{blobData,jdbcType=OTHER}
+            </if>
+        </where>
+
+    </select>
+
+
+    <!-- 根据对象的不为null的值作为条件进行查找 -->
+    <select id="selectSelective" resultMap="JobQrtzBlobTriggersMap"
+            parameterType="com.hdj.baseproject.entity.JobQrtzBlobTriggers">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM JOB_QRTZ_BLOB_TRIGGERS
+        <where>
+            <if test="schedName != null and schedName != ''">
+                and SCHED_NAME = #{schedName,jdbcType=VARCHAR}
+            </if>
+            <if test="triggerName != null and triggerName != ''">
+                and TRIGGER_NAME = #{triggerName,jdbcType=VARCHAR}
+            </if>
+            <if test="triggerGroup != null and triggerGroup != ''">
+                and TRIGGER_GROUP = #{triggerGroup,jdbcType=VARCHAR}
+            </if>
+            <if test="blobData != null">
+                and BLOB_DATA = #{blobData,jdbcType=OTHER}
+            </if>
+        </where>
+    </select>
+
+
+    <!-- 根据对象中不为null的值进行删除 -->
+    <delete id="deleteSelective" parameterType="com.hdj.baseproject.entity.JobQrtzBlobTriggers">
+        DELETE FROM JOB_QRTZ_BLOB_TRIGGERS
+        <where>
+            <if test="schedName != null and schedName != ''">
+                and SCHED_NAME = #{schedName,jdbcType=VARCHAR}
+            </if>
+            <if test="triggerName != null and triggerName != ''">
+                and TRIGGER_NAME = #{triggerName,jdbcType=VARCHAR}
+            </if>
+            <if test="triggerGroup != null and triggerGroup != ''">
+                and TRIGGER_GROUP = #{triggerGroup,jdbcType=VARCHAR}
+            </if>
+            <if test="blobData != null">
+                and BLOB_DATA = #{blobData,jdbcType=OTHER}
+            </if>
+        </where>
+    </delete>
+
+
+    <!-- 添加 （匹配有值的字段）并且返回添加之后的数据记录Id（直接调用回对应的插入类.id -->
+    <insert id="insertSelective" parameterType="com.hdj.baseproject.entity.JobQrtzBlobTriggers">
+        INSERT INTO JOB_QRTZ_BLOB_TRIGGERS
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="schedName != null and schedName != ''">
+                SCHED_NAME,
+            </if>
+            <if test="triggerName != null and triggerName != ''">
+                TRIGGER_NAME,
+            </if>
+            <if test="triggerGroup != null and triggerGroup != ''">
+                TRIGGER_GROUP,
+            </if>
+            <if test="blobData != null">
+                BLOB_DATA,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="schedName != null and schedName != ''">
+                #{schedName,jdbcType=VARCHAR},
+            </if>
+            <if test="triggerName != null and triggerName != ''">
+                #{triggerName,jdbcType=VARCHAR},
+            </if>
+            <if test="triggerGroup != null and triggerGroup != ''">
+                #{triggerGroup,jdbcType=VARCHAR},
+            </if>
+            <if test="blobData != null">
+                #{blobData,jdbcType=OTHER},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 批量添加数据，添加所有字段的数据-->
+    <insert id="batchInsert" parameterType="com.hdj.baseproject.entity.JobQrtzBlobTriggers">
+        INSERT INTO JOB_QRTZ_BLOB_TRIGGERS
+        ( SCHED_NAME, TRIGGER_NAME, TRIGGER_GROUP, BLOB_DATA )
+        <foreach collection="batchField" item="bean" index="index" separator="union all">
+            select
+            <trim suffixOverrides=",">
+                #{bean.schedName,jdbcType=VARCHAR} ,
+                #{bean.triggerName,jdbcType=VARCHAR} ,
+                #{bean.triggerGroup,jdbcType=VARCHAR} ,
+                #{bean.blobData,jdbcType=OTHER} ,
+            </trim>
+            from dual
+        </foreach>
+    </insert>
+
+
+    <!-- 根据对象的不为null的值作为条件进行查找 -->
+    <select id="selectSelectiveSkipSelf" resultMap="JobQrtzBlobTriggersMap"
+            parameterType="com.hdj.baseproject.entity.JobQrtzBlobTriggers">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM JOB_QRTZ_BLOB_TRIGGERS
+        where 1=1
+        <if test="blobData != null">
+            and BLOB_DATA = #{blobData,jdbcType=OTHER}
+        </if>
+        and SCHED_NAME != #{schedName,jdbcType=VARCHAR}
+        and TRIGGER_NAME != #{triggerName,jdbcType=VARCHAR}
+        and TRIGGER_GROUP != #{triggerGroup,jdbcType=VARCHAR}
+
+    </select>
+
+</mapper>
